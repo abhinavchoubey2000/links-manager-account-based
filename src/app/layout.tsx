@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-// import "dotenv/config";
+import "dotenv/config";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { ReduxProvider } from "@/redux/Provider";
+import { FetchUserData } from "./_components";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,7 +26,11 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					{children}
+					<ReduxProvider>
+						<FetchUserData />
+						{children}
+					</ReduxProvider>
+					<Toaster />
 				</ThemeProvider>
 			</body>
 		</html>
