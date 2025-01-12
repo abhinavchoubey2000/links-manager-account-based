@@ -1,17 +1,16 @@
 "use client";
-
-import { configureStore } from "@reduxjs/toolkit";
 import {userSlice } from "./slices";
 import { usersApi } from "./api-slices";
+import { configureStore } from "@reduxjs/toolkit";
 
 const store = configureStore({
 	reducer: {
-		[usersApi.reducerPath]: usersApi.reducer,
 		User: userSlice.reducer,
+		[usersApi.reducerPath]: usersApi.reducer,
 	},
 	middleware: (defaultMiddleware) =>
 		defaultMiddleware()
 			.concat(usersApi.middleware),
 });
-export type RootState = ReturnType<typeof store.getState>;
 export { store };
+export type RootState = ReturnType<typeof store.getState>;

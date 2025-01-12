@@ -1,14 +1,18 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Links } from "@/app/(server)/database/db";
-import { cookies } from "next/headers";
 
 export async function PUT(request: Request) {
 	try {
-		const { id, fullname, url, linkColor }: UpdateLinkDataRequestInterface =
-			await request.json();
+		// Getting cookies
 		const cookie = cookies();
 		const currentCookie = (await cookie).get("token");
 
+		// Getting data from the client
+		const { id, fullname, url, linkColor }: UpdateLinkDataRequestInterface =
+			await request.json();
+
+		// Checking if there is not cookie present then login first
 		if (!currentCookie) {
 			return NextResponse.json({
 				success: false,
@@ -17,15 +21,11 @@ export async function PUT(request: Request) {
 			});
 		}
 
-		if (!id || !fullname || !url) {
-			return NextResponse.json({
-				success: false,
-				message: "Link ID and Fullname are required",
-			});
-		}
+		// Creating shortname from updated fullname
 		const shortname =
 			fullname.length > 12 ? fullname.slice(0, 12) + "..." : fullname;
 
+		// Updating and saving the data in the database
 		const updatedLink = await Links.update({
 			where: { id },
 			data: {
@@ -36,12 +36,14 @@ export async function PUT(request: Request) {
 			},
 		});
 
+		// Returning the the response with updated data
 		return NextResponse.json({
 			success: true,
 			message: "Name updated successfully",
 			data: updatedLink,
 		});
 	} catch (error) {
+		// Cathing error
 		return NextResponse.json({
 			success: false,
 			message: (error as Error).message,

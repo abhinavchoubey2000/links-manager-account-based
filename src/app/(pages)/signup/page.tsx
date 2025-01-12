@@ -1,22 +1,29 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { toast } from "sonner";
+import Image from "next/image";
+import React, { useState } from "react";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useSignupMutation } from "@/redux/api-slices";
 import { Loader2, UserRoundPlusIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { toast } from "sonner";
 
 export default function SignUp() {
+	// States and Hookes
+	const router = useRouter();
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [signup, { isLoading }] = useSignupMutation();
-	const router = useRouter();
+	const { isAuthenticated } = useSelector((state: RootState) => state.User);
+	
+	// Conditions
+	if (isAuthenticated) return router.replace("/");
 
+	// Functions
 	const createAccount = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const response = await signup({ email, password, name });
@@ -78,13 +85,7 @@ export default function SignUp() {
 					}}
 				/>
 
-				<p className="self-end">
-					Already have an account?{" "}
-					<Link className="underline" href="/login">
-						Login now.
-					</Link>
-				</p>
-				<Button type="submit">
+				<Button className="w-full" type="submit">
 					Sign Up
 					{!isLoading ? (
 						<UserRoundPlusIcon />
@@ -93,6 +94,12 @@ export default function SignUp() {
 					)}
 				</Button>
 			</form>
+			<p className="flex my-2 flex-col gap-3 justify-center items-center">
+				<span className="opacity-[0.6]">Already have an account? </span>
+				<Link className="underline text-[#f7ff00]" href="/login">
+					Login now.
+				</Link>
+			</p>
 		</div>
 	);
 }

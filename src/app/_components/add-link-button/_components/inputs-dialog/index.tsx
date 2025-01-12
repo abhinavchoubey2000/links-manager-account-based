@@ -10,13 +10,13 @@ import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { changeLoadingState, storeLinkDataInState } from "@/redux/slices";
 import {
 	DialogClose,
-	DialogDescription,
 	DialogTitle,
+	DialogDescription,
 } from "@/components/ui/dialog";
 import {
 	Select,
-	SelectContent,
 	SelectGroup,
+	SelectContent,
 	SelectTrigger,
 } from "@/components/ui/select";
 
@@ -28,7 +28,7 @@ export function InputsDialog() {
 	const [addLink, { isLoading }] = useAddLinkMutation();
 	const [colorBoxOpen, setColorBoxOpen] = useState(false);
 	const [color, setColor] = useState({ name: "Default", colorCode: "#292524" });
-	
+
 	// Functions and Handlers
 	const saveLink = async () => {
 		dispatch(changeLoadingState(true));

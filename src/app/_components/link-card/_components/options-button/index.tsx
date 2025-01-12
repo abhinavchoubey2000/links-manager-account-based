@@ -1,41 +1,41 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 import React, { useState } from "react";
-import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
-import {
-	Dialog,
-	DialogClose,
-	DialogContent,
-	DialogDescription,
-	DialogTitle,
-} from "@/components/ui/dialog";
+import { RootState } from "@/redux/store";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { ExternalLinkIcon, Loader2 } from "lucide-react";
+import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import {
 	useUpdateLinkMutation,
 	useDeleteLinkMutation,
 } from "@/redux/api-slices";
 import {
+	DropdownMenu,
+	DropdownMenuItem,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
 	updateLinkInState,
-	changeLoadingState,
 	deleteLinkInState,
+	changeLoadingState,
 	undoLinkDeletionInState,
 } from "@/redux/slices";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "sonner";
-import { RootState } from "@/redux/store";
-import { ExternalLinkIcon, Loader2 } from "lucide-react";
 import {
 	Select,
-	SelectContent,
 	SelectGroup,
+	SelectContent,
 	SelectTrigger,
 } from "@/components/ui/select";
+import {
+	Dialog,
+	DialogTitle,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+} from "@/components/ui/dialog";
 
 export function OptionsButton({
 	id,
@@ -43,16 +43,48 @@ export function OptionsButton({
 	linkColor,
 	url,
 }: OptionsButtonPropInterface) {
-	const [editDialogOpen, setEditDialogOpen] = useState(false);
+	// States and Hooks
+	const dispatch = useDispatch();
+	const [deleteLink] = useDeleteLinkMutation();
+	const [color, setColor] = useState(linkColor);
+	const [updatedLink, setUpdatedLink] = useState(url);
 	const [colorBoxOpen, setColorBoxOpen] = useState(false);
 	const [updatedName, setUpdatedName] = useState(fullname);
-	const [updatedLink, setUpdatedLink] = useState(url);
-	const [color, setColor] = useState(linkColor);
-	const { userData } = useSelector((state: RootState) => state.User);
 	const [updateLink, { isLoading }] = useUpdateLinkMutation();
-	const [deleteLink] = useDeleteLinkMutation();
-	const dispatch = useDispatch();
+	const [editDialogOpen, setEditDialogOpen] = useState(false);
+	const { userData } = useSelector((state: RootState) => state.User);
 
+	// Functions and Handler
+	const editLink = async (
+		id: string,
+		updatedName: string,
+		updatedLink: string
+	) => {
+		dispatch(changeLoadingState(true));
+		const response = await updateLink({
+			url: updatedLink,
+			fullname: updatedName,
+			id,
+			linkColor: color.name,
+		});
+		toast.success(`Updated to "${response.data.data.fullname}"`, {
+			description: `From "${fullname}"`,
+			position: "top-right",
+			descriptionClassName: "text-green-500",
+			duration: 3000,
+		});
+		dispatch(updateLinkInState(response.data.data));
+		dispatch(changeLoadingState(false));
+	};
+	const handleEdit = (fullname: string, url: string) => {
+		setUpdatedName(fullname);
+		setUpdatedLink(url);
+		setEditDialogOpen(true);
+	};
+	const changeColor = (name: string, colorCode: string) => {
+		setColor({ name, colorCode });
+		setColorBoxOpen(false);
+	};
 	const removeLink = async (id: string, fullname: string) => {
 		const undoUserData = userData;
 		let undo = false;
@@ -84,36 +116,7 @@ export function OptionsButton({
 			}
 		}, 16000);
 	};
-	const handleEdit = (fullname: string, url: string) => {
-		setUpdatedName(fullname);
-		setUpdatedLink(url);
-		setEditDialogOpen(true);
-	};
-	const changeColor = (name: string, colorCode: string) => {
-		setColor({ name, colorCode });
-		setColorBoxOpen(false);
-	};
-	const editLink = async (
-		id: string,
-		updatedName: string,
-		updatedLink: string
-	) => {
-		dispatch(changeLoadingState(true));
-		const response = await updateLink({
-			url: updatedLink,
-			fullname: updatedName,
-			id,
-			linkColor: color.name,
-		});
-		toast.success(`Updated to "${response.data.data.fullname}"`, {
-			description: `From "${fullname}"`,
-			position: "top-right",
-			descriptionClassName: "text-green-500",
-			duration: 3000,
-		});
-		dispatch(updateLinkInState(response.data.data));
-		dispatch(changeLoadingState(false));
-	};
+
 	return (
 		<div>
 			<DropdownMenu modal>

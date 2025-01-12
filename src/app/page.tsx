@@ -1,11 +1,11 @@
 "use client";
-
+import { Header, Loader } from "@/shared";
 import { RootState } from "@/redux/store";
-import { LinkCard, AddLinkButton, Landing } from "./_components";
 import { useSelector } from "react-redux";
-import { Loader } from "lucide-react";
-import { Header } from "@/shared";
+import { LinkCard, AddLinkButton, Landing } from "./_components";
+
 export default function Home() {
+	// Hooks
 	const { loading, userData, isAuthenticated } = useSelector(
 		(state: RootState) => state.User
 	);
@@ -17,7 +17,7 @@ export default function Home() {
 				{!isAuthenticated ? (
 					<Landing />
 				) : loading ? (
-					<Loader className="w-20 h-20 animate-spin" />
+					<Loader title="Hang on, loading your links"/>
 				) : (
 					<>
 						{userData.links?.length !== 0

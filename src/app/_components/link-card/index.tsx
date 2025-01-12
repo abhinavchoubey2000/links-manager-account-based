@@ -1,9 +1,10 @@
+import React from "react";
+import Link from "next/link";
+import { LinkIcon } from "lucide-react";
+import { OptionsButton } from "./_components";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LinkIcon } from "lucide-react";
-import Link from "next/link";
-import React from "react";
-import { OptionsButton } from "./_components";
+
 export function LinkCard({
 	id,
 	url,
@@ -12,6 +13,7 @@ export function LinkCard({
 	shortname,
 	linkColor,
 }: LinkCardPropsInterface) {
+	// Colors Object
 	const colorsArray: { [key: string]: string } = {
 		Default: "#292524",
 		Green: "#166534",
@@ -24,6 +26,7 @@ export function LinkCard({
 		Black: "#000000",
 		Brown: "#431407",
 	};
+	
 	return (
 		<div className="flex flex-row gap-1 justify-center items-center ">
 			<Link href={url}>

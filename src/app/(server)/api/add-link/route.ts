@@ -1,14 +1,18 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Links } from "@/app/(server)/database/db";
-import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
 	try {
-		const { url, fullname, linkColor }: AddLinkDataRequestInterface =
-			await request.json();
+		// Getting cookies
 		const cookie = cookies();
 		const currentCookie = (await cookie).get("token");
+		
+		// Getting data from client
+		const { url, fullname, linkColor }: AddLinkDataRequestInterface =
+			await request.json();
 
+		// Checking if there is not cookie present then login first
 		if (!currentCookie) {
 			return NextResponse.json({
 				success: false,
@@ -17,6 +21,7 @@ export async function POST(request: Request) {
 			});
 		}
 
+		// Function to create favicon url
 		const getIconUrl: GetIconUrlFunctionInterface = (url) => {
 			const protocol = url.split("/")[0];
 			const hostname = new URL(url).hostname;
@@ -24,21 +29,24 @@ export async function POST(request: Request) {
 			return iconUrl;
 		};
 
+		// Checking if url or fullname is given or not
 		if (!url || !fullname) {
 			return NextResponse.json({
 				success: false,
 				message: "All fields are required",
 			});
 		}
-
+		// Getting favicon url
 		const icon_url = getIconUrl(url);
 
+		// Creating short name from fullname
 		const shortname =
 			fullname.length > 12 ? fullname.slice(0, 12) + "..." : fullname;
 
-		// Create and save new Link
+		// Parsing base-64 string to an userId string
 		const userId = atob(String(currentCookie.value));
 
+		// Creating and saving new link to database
 		const newLink = await Links.create({
 			data: {
 				fullname,
@@ -50,12 +58,14 @@ export async function POST(request: Request) {
 			},
 		});
 
+		// Returning response with created link object
 		return NextResponse.json({
 			success: true,
 			message: "New link created.",
 			data: newLink,
 		});
 	} catch (error) {
+		// Catching error
 		return NextResponse.json({
 			success: false,
 			message: (error as Error).message,

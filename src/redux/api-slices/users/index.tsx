@@ -3,9 +3,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const usersApi = createApi({
 	reducerPath: "usersApi",
 	baseQuery: fetchBaseQuery({
-		baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+		baseUrl: process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL,
 	}),
 	endpoints: (builder) => ({
+		// User
 		login: builder.mutation({
 			query: (credentials) => ({
 				url: "api/login",
@@ -13,7 +14,6 @@ export const usersApi = createApi({
 				body: { email: credentials.email, password: credentials.password },
 			}),
 		}),
-
 		signup: builder.mutation({
 			query: (credentials) => ({
 				url: "/api/signup",
@@ -25,14 +25,16 @@ export const usersApi = createApi({
 				},
 			}),
 		}),
-
 		logout: builder.mutation<void, void>({
 			query: () => ({
 				url: "api/logout",
 				method: "DELETE",
 			}),
 		}),
-
+		fetchUserData: builder.query<ResponseDataObjectInterface, void>({
+			query: () => "api/fetch-user-data",
+		}),
+		// Link
 		addLink: builder.mutation({
 			query: (linkObj: {
 				url: string;
@@ -65,9 +67,6 @@ export const usersApi = createApi({
 				},
 			}),
 		}),
-		fetchUserData: builder.query<ResponseDataObjectInterface, void>({
-			query: () => "api/fetch-user-data",
-		}),
 		deleteLink: builder.mutation({
 			query: (linkId) => ({
 				url: `api/delete-link/${linkId}`,
@@ -78,11 +77,13 @@ export const usersApi = createApi({
 });
 
 export const {
+	// User Api Slices
+	useFetchUserDataQuery,
 	useLoginMutation,
 	useSignupMutation,
 	useLogoutMutation,
+	// Link Api Slices
 	useAddLinkMutation,
-	useFetchUserDataQuery,
 	useUpdateLinkMutation,
 	useDeleteLinkMutation,
 } = usersApi;

@@ -1,6 +1,7 @@
+import React from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { LogInIcon, UserRoundPlusIcon } from "lucide-react";
-import React from "react";
 
 export function Landing() {
 	return (
@@ -23,10 +24,12 @@ export function Landing() {
 					<p className="italic font-bold tracking-wider text-xs lg:text-md">
 						Start managing your links today.
 					</p>
-					<Button className="text-left font-bold" variant={"outline"}>
-						Create one now
-						<UserRoundPlusIcon className="lg:hidden" />
-					</Button>
+					<Link href={"/signup"}>
+						<Button className="text-left font-bold" variant={"outline"}>
+							Create one now
+							<UserRoundPlusIcon className="lg:hidden" />
+						</Button>
+					</Link>
 				</div>
 				<div className="text-center flex flex-col gap-3">
 					<h1 className="text-[#f7ff00] scroll-m-20 text-lg font-extrabold tracking-tight lg:text-2xl ">
@@ -35,10 +38,12 @@ export function Landing() {
 					<p className="italic font-bold tracking-wider text-xs lg:text-md">
 						Welcome back and start accessing your links.
 					</p>
-					<Button className="text-left font-bold" variant={"outline"}>
-						Login now
-						<LogInIcon className="lg:hidden" />
-					</Button>
+					<Link href={"/login"}>
+						<Button className="text-left font-bold" variant={"outline"}>
+							Login now
+							<LogInIcon className="lg:hidden" />
+						</Button>
+					</Link>
 				</div>
 			</div>
 			<div className="flex flex-col gap-3 items-center">

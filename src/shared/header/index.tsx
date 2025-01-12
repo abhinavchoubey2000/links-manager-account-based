@@ -1,27 +1,30 @@
+'use client'
 import React from "react";
-import { Button } from "@/components/ui/button";
-import {
-	LogOutIcon,
-	LogInIcon,
-	UserRoundPlusIcon,
-	Loader2,
-} from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useSelector, useDispatch } from "react-redux";
+import Image from "next/image";
 import { RootState } from "@/redux/store";
-import { useLogoutMutation } from "@/redux/api-slices";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import { handleAuthentication } from "@/redux/slices";
+import { useLogoutMutation } from "@/redux/api-slices";
+import { useSelector, useDispatch } from "react-redux";
+import {
+	Loader2,
+	LogInIcon,
+	LogOutIcon,
+	UserRoundPlusIcon,
+} from "lucide-react";
 
 export function Header() {
+	// States and Hooks
+	const router = useRouter();
+	const dispatch = useDispatch();
+	const [logout, { isLoading }] = useLogoutMutation();
 	const { isAuthenticated, userData } = useSelector(
 		(state: RootState) => state.User
 	);
-	const dispatch = useDispatch();
-	const [logout, { isLoading }] = useLogoutMutation();
-	const router = useRouter();
 
+	// Functions
 	const logoutAccount = async () => {
 		await logout();
 		dispatch(handleAuthentication(false));

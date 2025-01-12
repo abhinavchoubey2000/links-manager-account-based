@@ -3,15 +3,16 @@ import { Users } from "@/app/(server)/database/db";
 
 export async function POST(request: Request) {
 	try {
-		//Getting data from client
+		// Getting data from client
 		const { email, password }: LoginRequestDataInterface = await request.json();
 
+		// Finding the user with matched email and password
 		const matchedUser = await Users.findFirst({
 			where: { email, password },
 			include: { links: {} },
 		});
 
-		//Checkin login credentials
+		// Checking login credentials
 		if (!matchedUser) {
 			return NextResponse.json({
 				success: false,
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
 			data: matchedUser,
 		});
 
-		//Setting cookies
+		// Converting userId string to base-64 string and setting cookies
 		const token = btoa(String(matchedUser.id));
 		response.cookies.set("token", token, {
 			httpOnly: true,
@@ -34,8 +35,10 @@ export async function POST(request: Request) {
 			maxAge: 3600,
 		});
 
+		// Returning response with found user data
 		return response;
 	} catch (error) {
+		// Catching error
 		return NextResponse.json({
 			success: false,
 			message: (error as Error).message,

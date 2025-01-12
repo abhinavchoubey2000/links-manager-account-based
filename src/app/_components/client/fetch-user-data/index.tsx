@@ -1,16 +1,17 @@
 "use client";
-import { useFetchUserDataQuery } from "@/redux/api-slices";
-import {
-	storeUserDataInState,
-	changeLoadingState,
-	handleAuthentication,
-} from "@/redux/slices";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useFetchUserDataQuery } from "@/redux/api-slices";
+import {
+	changeLoadingState,
+	storeUserDataInState,
+	handleAuthentication,
+} from "@/redux/slices";
 
 export function FetchUserData() {
-	const { data, isLoading } = useFetchUserDataQuery();
+	// Hooks
 	const dispatch = useDispatch();
+	const { data, isLoading } = useFetchUserDataQuery();
 
 	useEffect(() => {
 		dispatch(changeLoadingState(isLoading));

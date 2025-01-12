@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
 import "dotenv/config";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { ReduxProvider } from "@/redux/Provider";
-import { FetchUserData } from "./_components";
 import "./globals.css";
+import type { Metadata } from "next";
+import { FetchUserData } from "./_components";
+import { Toaster } from "@/components/ui/sonner";
+import { ReduxProvider } from "@/redux/ReduxProvider";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
 	title: "Links Manager",

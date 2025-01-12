@@ -1,23 +1,30 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Loader2, LogInIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { useLoginMutation } from "@/redux/api-slices";
 import { toast } from "sonner";
-import { useDispatch } from "react-redux";
+import Image from "next/image";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Loader2, LogInIcon } from "lucide-react";
+import { useLoginMutation } from "@/redux/api-slices";
+import { useDispatch, useSelector } from "react-redux";
 import { handleAuthentication, storeUserDataInState } from "@/redux/slices";
+import { RootState } from "@/redux/store";
 
 export default function Login() {
+	// States and Hooks
 	const router = useRouter();
-	const [password, setPassword] = useState("");
-	const [email, setEmail] = useState("");
-	const [login, { isLoading }] = useLoginMutation();
 	const dispatch = useDispatch();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [login, { isLoading }] = useLoginMutation();
+	const { isAuthenticated } = useSelector((state: RootState) => state.User);
 
+	// Condtions
+	if (isAuthenticated) return router.replace("/");
+
+	// Functions
 	const loginAccount = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const response = await login({ email, password });
@@ -67,17 +74,17 @@ export default function Login() {
 					}}
 				/>
 
-				<p className="self-end">
-					Don't have account?{" "}
-					<Link className="underline" href="/signup">
-						Create account
-					</Link>
-				</p>
-				<Button type="submit">
+				<Button type="submit" className="w-full">
 					Log in
 					{!isLoading ? <LogInIcon /> : <Loader2 className="animate-spin" />}
 				</Button>
 			</form>
+			<p className="flex my-2 flex-col gap-3 justify-center items-center">
+				<span className="opacity-[0.6]">Don't have account? </span>
+				<Link className="underline text-[#f7ff00]" href="/signup">
+					Create account
+				</Link>
+			</p>
 		</div>
 	);
 }
