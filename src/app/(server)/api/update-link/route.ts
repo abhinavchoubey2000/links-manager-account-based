@@ -21,6 +21,17 @@ export async function PUT(request: Request) {
 			});
 		}
 
+		// Function to create favicon url
+		const getIconUrl: GetIconUrlFunctionInterface = (url) => {
+			const protocol = url.split("/")[0];
+			const hostname = new URL(url).hostname;
+			const iconUrl = `${protocol}//${hostname}/favicon.ico`;
+			return iconUrl;
+		};
+
+		// Getting favicon url
+		const icon_url = getIconUrl(url);
+
 		// Creating shortname from updated fullname
 		const shortname =
 			fullname.length > 12 ? fullname.slice(0, 12) + "..." : fullname;
@@ -33,6 +44,7 @@ export async function PUT(request: Request) {
 				url,
 				shortname,
 				linkColor,
+				icon_url,
 			},
 		});
 
