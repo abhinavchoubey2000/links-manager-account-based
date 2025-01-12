@@ -34,12 +34,17 @@ export const usersApi = createApi({
 		}),
 
 		addLink: builder.mutation({
-			query: (linkObj: { url: string; fullname: string }) => ({
+			query: (linkObj: {
+				url: string;
+				fullname: string;
+				linkColor: string;
+			}) => ({
 				url: "api/add-link",
 				method: "POST",
 				body: {
 					url: linkObj.url,
 					fullname: linkObj.fullname,
+					linkColor: linkObj.linkColor,
 				},
 			}),
 		}),
@@ -48,6 +53,7 @@ export const usersApi = createApi({
 				url: string;
 				fullname: string;
 				id: string;
+				linkColor: string;
 			}) => ({
 				url: "api/update-link",
 				method: "PUT",
@@ -55,6 +61,7 @@ export const usersApi = createApi({
 					url: updatedLinkObj.url,
 					fullname: updatedLinkObj.fullname,
 					id: updatedLinkObj.id,
+					linkColor: updatedLinkObj.linkColor,
 				},
 			}),
 		}),

@@ -12,6 +12,17 @@ interface LinkObjectInterface {
 	icon_url: string;
 	shortname: string;
 	id: string;
+	linkColor:
+		| "Default"
+		| "Green"
+		| "Blue"
+		| "Purple"
+		| "Pink"
+		| "Red"
+		| "Orange"
+		| "Yellow"
+		| "Black"
+		| "Brown";
 }
 interface ResponseDataObjectInterface {
 	success: boolean;
@@ -32,9 +43,11 @@ interface LinkCardPropsInterface {
 	shortname: string;
 	url: string;
 	icon_url: string;
+	linkColor: string;
 }
 interface OptionsButtonPropInterface {
 	id: string;
 	fullname: string;
 	url: string;
+	linkColor: { name: string; colorCode: string };
 }

@@ -3,6 +3,8 @@ import { Users } from "@/app/(server)/database/db";
 import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
+	
+	
 	try {
 		const cookie = cookies();
 		const currentCookie = (await cookie).get("token");

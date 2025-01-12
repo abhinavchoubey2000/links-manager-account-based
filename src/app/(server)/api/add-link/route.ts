@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
 	try {
-		const { url, fullname }: AddLinkDataRequestInterface = await request.json();
+		const { url, fullname, linkColor }: AddLinkDataRequestInterface =
+			await request.json();
 		const cookie = cookies();
 		const currentCookie = (await cookie).get("token");
 
@@ -45,6 +46,7 @@ export async function POST(request: Request) {
 				icon_url,
 				url,
 				userId,
+				linkColor,
 			},
 		});
 

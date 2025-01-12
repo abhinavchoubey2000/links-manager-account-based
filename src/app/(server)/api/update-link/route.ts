@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export async function PUT(request: Request) {
 	try {
-		const { id, fullname, url }: UpdateLinkDataRequestInterface =
+		const { id, fullname, url, linkColor }: UpdateLinkDataRequestInterface =
 			await request.json();
 		const cookie = cookies();
 		const currentCookie = (await cookie).get("token");
@@ -32,6 +32,7 @@ export async function PUT(request: Request) {
 				fullname,
 				url,
 				shortname,
+				linkColor,
 			},
 		});
 

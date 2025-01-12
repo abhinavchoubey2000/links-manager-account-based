@@ -30,6 +30,7 @@ export default function Home() {
 											shortname={link.shortname}
 											url={link.url}
 											icon_url={link.icon_url}
+											linkColor={link.linkColor}
 										/>
 									);
 							  })
