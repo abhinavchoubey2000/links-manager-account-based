@@ -1,10 +1,10 @@
 import "dotenv/config";
 import "./globals.css";
 import type { Metadata } from "next";
-import { FetchUserData } from "./_components";
 import { Toaster } from "@/components/ui/sonner";
 import { ReduxProvider } from "@/redux/ReduxProvider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { FetchUserData, AddToDevicePrompt } from "./_components";
 
 export const metadata: Metadata = {
 	title: "Links Manager",
@@ -19,6 +19,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<head>
+				<link rel="manifest" href="/manifest.json" />
+			</head>
 			<body>
 				<ThemeProvider
 					attribute="class"
@@ -29,6 +32,7 @@ export default function RootLayout({
 					<ReduxProvider>
 						<FetchUserData />
 						{children}
+						<AddToDevicePrompt />
 					</ReduxProvider>
 					<Toaster />
 				</ThemeProvider>
