@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 		response.cookies.set("token", token, {
 			httpOnly: true,
 			secure: true,
-			maxAge: 3600,
+			maxAge: 864000,
 		});
 
 		// Returning response with found user data
