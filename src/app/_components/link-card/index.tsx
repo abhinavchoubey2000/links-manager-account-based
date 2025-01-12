@@ -33,7 +33,7 @@ export function LinkCard({
 				<Button
 					title={fullname}
 					style={{ backgroundColor: colorsArray[linkColor] }}
-					className="flex w-40 text-white tracking-[0.1em]"
+					className="flex justify-start w-44 text-white tracking-[0.1em]"
 				>
 					<Avatar className="h-6 w-6 bg-transparent">
 						<AvatarImage

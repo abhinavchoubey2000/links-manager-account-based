@@ -17,9 +17,9 @@ export default function Home() {
 				{!isAuthenticated ? (
 					<Landing />
 				) : loading ? (
-					<Loader title="Hang on, loading your links"/>
+					<Loader title="Hang on, loading your links" />
 				) : (
-					<>
+					<div className="flex flex-wrap items-center justify-center gap-3">
 						{userData.links?.length !== 0
 							? userData.links?.map((link: LinkObjectInterface, index) => {
 									return (
@@ -36,7 +36,7 @@ export default function Home() {
 							  })
 							: null}
 						<AddLinkButton />
-					</>
+					</div>
 				)}
 			</div>
 		</div>
