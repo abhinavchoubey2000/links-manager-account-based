@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Users } from "@/app/(server)/database/db";
 
-export async function GET(request: Request) {
+export async function GET() {
 	try {
 		// Getting cookies
 		const cookie = cookies();

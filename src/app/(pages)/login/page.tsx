@@ -80,7 +80,7 @@ export default function Login() {
 				</Button>
 			</form>
 			<p className="flex my-2 flex-col gap-3 justify-center items-center">
-				<span className="opacity-[0.6]">Don't have account? </span>
+				<span className="opacity-[0.6]">Don&apos;t have account? </span>
 				<Link className="underline text-[#f7ff00]" href="/signup">
 					Create account
 				</Link>

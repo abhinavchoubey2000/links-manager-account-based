@@ -19,7 +19,7 @@ export function Landing() {
 			<div className="flex justify-between flex-col lg:flex-row gap-4 p-8">
 				<div className="text-center flex flex-col gap-3">
 					<h1 className="text-[#f7ff00] scroll-m-20 text-lg font-extrabold tracking-tight lg:text-2xl ">
-						Don't have account?
+						Don&apos;t have account?
 					</h1>
 					<p className="italic font-bold tracking-wider text-xs lg:text-md">
 						Start managing your links today.
