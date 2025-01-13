@@ -1,5 +1,8 @@
-import React from "react";
+"use client";
+import gsap from "gsap";
 import Link from "next/link";
+import React, { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import { LinkIcon } from "lucide-react";
 import { OptionsButton } from "./_components";
 import { Button } from "@/components/ui/button";
@@ -26,9 +29,22 @@ export function LinkCard({
 		Black: "#000000",
 		Brown: "#431407",
 	};
-	
+
+	const linkCardRef = useRef(null);
+
+	useGSAP(() => {
+		const tl = gsap.timeline();
+		tl.from(linkCardRef.current, {
+			y: -100,
+			opacity: 0,
+			duration: 1,
+		});
+	});
 	return (
-		<div className="flex flex-row gap-1 justify-center items-center ">
+		<div
+			ref={linkCardRef}
+			className="flex flex-row gap-1 justify-center items-center "
+		>
 			<Link href={url}>
 				<Button
 					title={fullname}
